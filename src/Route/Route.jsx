@@ -11,6 +11,8 @@ import CreateGroup from "../pages/CreateGroup/CreateGroup";
 import MyGroups from "../pages/MyGroups/MyGroups";
 import Login from "../pages/Login/Login";
 import Registration from "../pages/Registration/Registration";
+import GroupDetails from "../pages/GroupDetails/GroupDetails";
+import UpdateGroup from "../pages/UpdateGroup/UpdateGroup";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -22,6 +24,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/allgroups',
+        loader: () => fetch('http://localhost:3000/hobby'),
         element: <AllGroups></AllGroups>
       },
       {
@@ -31,6 +34,16 @@ export const router = createBrowserRouter([
       {
         path: '/mygroup',
         element: <MyGroups></MyGroups>
+      },
+      {
+        path: 'groupDetails/:id',
+        loader: ({ params }) => fetch(`http://localhost:3000/hobby/${params.id}`),
+        element: <GroupDetails></GroupDetails>
+      },
+      {
+        path: 'updateGroup/:id',
+        loader: ({ params }) => fetch(`http://localhost:3000/hobby/${params.id}`),
+        element: <UpdateGroup></UpdateGroup>
       },
       {
         path: '/login',
