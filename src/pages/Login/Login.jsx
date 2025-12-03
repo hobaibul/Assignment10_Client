@@ -1,11 +1,33 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React, { useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router';
+import { MainContext } from '../../RootLayout/RootLayout';
 
 const Login = () => {
+    const { handleLoginWithContext, setUser } = useContext(MainContext)
+
+    const location = useLocation();
+    const form = location?.state?.form;
+    const navigation = useNavigate();
+
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        console.log(email, password)
+
+        handleLoginWithContext(email, password)
+            .then((result) => {
+                const CurrentUser = result.user;
+                setUser(CurrentUser);
+                navigation(form ? form : "/")
+            })
+    }
     return (
         <div className="w-full max-w-md p-4 rounded-md shadow sm:p-8 bg-[#F7F6FF] dark:text-gray-800 mx-auto my-10">
             <h2 className="mb-3 text-3xl font-semibold text-center">Login to your account</h2>
-           
+
             <div className="my-6 space-y-4">
                 <button aria-label="Login with Google" type="button" className="flex items-center justify-center w-full p-4 space-x-4 border rounded-md focus:ring-2 focus:ring-offset-1 dark:border-gray-600 focus:dark:ring-violet-600">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-5 h-5 fill-current">
@@ -20,7 +42,7 @@ const Login = () => {
                 <p className="px-3 dark:text-gray-600">OR</p>
                 <hr className="w-full dark:text-gray-600" />
             </div>
-            <form noValidate="" action="" className="space-y-8">
+            <form onSubmit={handleLogin} className="space-y-8">
                 <div className="space-y-4">
                     <div className="space-y-2">
                         <label htmlFor="email" className="block text-sm">Email address</label>
@@ -34,9 +56,9 @@ const Login = () => {
                         <input type="password" name="password" id="password" placeholder="*****" className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800 focus:dark:border-violet-600" />
                     </div>
                 </div>
-                <button type="button" className="w-full px-8 py-3 font-semibold rounded-md bg-violet-600 text-gray-50">Sign in</button>
+                <button type="submit" className="w-full px-8 py-3 font-semibold rounded-md bg-violet-600 text-gray-50">Sign in</button>
             </form>
-             <p className="text-sm text-center dark:text-gray-600 mt-5">Dont have account?
+            <p className="text-sm text-center dark:text-gray-600 mt-5">Dont have account?
                 <Link to="/registration" rel="noopener noreferrer" className="focus:underline hover:underline text-purple-800">Sign up here</Link>
             </p>
         </div>

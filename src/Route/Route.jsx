@@ -13,6 +13,7 @@ import Login from "../pages/Login/Login";
 import Registration from "../pages/Registration/Registration";
 import GroupDetails from "../pages/GroupDetails/GroupDetails";
 import UpdateGroup from "../pages/UpdateGroup/UpdateGroup";
+import Profile from "../pages/Profile/Profile";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
       {
         path: 'footer',
         element: <Footer></Footer>
+      },
+      {
+        path: '/Profile',
+        element: <Profile></Profile>
       }
     ]
   },
