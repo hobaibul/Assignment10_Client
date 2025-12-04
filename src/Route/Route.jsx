@@ -36,6 +36,8 @@ export const router = createBrowserRouter([
         path: '/mygroup',
         element: <MyGroups></MyGroups>
       },
+
+
       {
         path: 'groupDetails/:id',
         loader: ({ params }) => fetch(`http://localhost:3000/hobby/${params.id}`),
@@ -55,13 +57,14 @@ export const router = createBrowserRouter([
         element: <Registration></Registration>
       },
       {
+        path: '/Profile',
+        element: <Profile></Profile>
+      },
+      {
         path: 'footer',
         element: <Footer></Footer>
       },
-      {
-        path: '/Profile',
-        element: <Profile></Profile>
-      }
+
     ]
   },
 ]);

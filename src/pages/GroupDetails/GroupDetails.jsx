@@ -1,9 +1,42 @@
 import React from 'react';
 import { useLoaderData, Link } from 'react-router';
+import { useContext } from "react";
+import { MainContext } from "../../RootLayout/RootLayout";
 
 const GroupDetails = () => {
   const hobby = useLoaderData();
   const { _id, name, photo, description, quantity, category, meeting, startDate } = hobby;
+
+
+
+  const { user } = useContext(MainContext);
+
+  const handleJoin = async () => {
+    if (!user) {
+      alert("Please login first");
+      return;
+    }
+
+    const res = await fetch("http://localhost:3000/join-group", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        groupId: hobby._id,
+        userEmail: user.email,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (data.message === "already-joined") {
+      alert("You already joined this group!");
+    } else {
+      alert("Successfully Joined Group!");
+    }
+  };
+
+
+
 
   return (
     <div className="shadow-md bg-[#F7F6FF] pb-12 max-w-10/12 mx-auto">
@@ -55,7 +88,7 @@ const GroupDetails = () => {
               </div>
             </div>
 
-            <button className="btn btn-success text-white w-full">Join Group</button>
+            <button onClick={handleJoin} className="btn btn-success text-white w-full">Join Group</button>
           </div>
         </div>
 
