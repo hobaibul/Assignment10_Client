@@ -45,7 +45,7 @@ const GroupCard = ({ hobby, hobbys, setHobbys }) => {
     return (
         <div>
             
-            <div className="card bg-white w-96 shadow-md hover:shadow-xl transition-all duration-300 rounded-xl border border-gray-100">
+            <div className="card bg-white  shadow-md hover:shadow-xl transition-all duration-300 rounded-xl border border-gray-100">
                 <figure className="relative">
                     <img
                         src={photo}

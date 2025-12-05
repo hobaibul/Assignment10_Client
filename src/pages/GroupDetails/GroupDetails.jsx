@@ -11,29 +11,18 @@ const GroupDetails = () => {
 
   const { user } = useContext(MainContext);
 
-  const handleJoin = async () => {
-    if (!user) {
-      alert("Please login first");
-      return;
-    }
-
-    const res = await fetch("http://localhost:3000/join-group", {
+  const handleJoinGroup = () => {
+    fetch("http://localhost:3000/join-group", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        groupId: hobby._id,
-        userEmail: user.email,
-      }),
-    });
-
-    const data = await res.json();
-
-    if (data.message === "already-joined") {
-      alert("You already joined this group!");
-    } else {
-      alert("Successfully Joined Group!");
-    }
+      body: JSON.stringify({ groupId: _id, email: user.email })
+    })
+      .then(res => res.json())
+      .then(() => {
+        alert("Successfully Joined Group");
+      });
   };
+
 
 
 
@@ -88,7 +77,7 @@ const GroupDetails = () => {
               </div>
             </div>
 
-            <button onClick={handleJoin} className="btn btn-success text-white w-full">Join Group</button>
+            <button onClick={handleJoinGroup} className="btn btn-success text-white w-full">Join Group</button>
           </div>
         </div>
 

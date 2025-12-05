@@ -33,9 +33,10 @@ export const router = createBrowserRouter([
         element: <CreateGroup></CreateGroup>
       },
       {
-        path: '/mygroup',
+        path: "/mygroup",
         element: <MyGroups></MyGroups>
-      },
+      }
+      ,
 
 
       {
