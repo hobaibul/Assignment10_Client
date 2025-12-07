@@ -1,35 +1,85 @@
-import React from 'react';
-import { useLoaderData, Link } from 'react-router';
+import React, { useEffect, useState } from 'react';
+import { useLoaderData, Link, useNavigate } from 'react-router';
 import { useContext } from "react";
 import { MainContext } from "../../RootLayout/RootLayout";
+import Swal from 'sweetalert2';
 
 const GroupDetails = () => {
   const hobby = useLoaderData();
   const { _id, name, photo, description, quantity, category, meeting, startDate } = hobby;
 
-
-
+  const [join, setJoin] = useState(false);
   const { user } = useContext(MainContext);
+  const navigate = useNavigate();
 
+  const BASE_URL = "https://hobbyhub-server-tawny.vercel.app";
+
+  // ✅ JOIN GROUP
   const handleJoinGroup = () => {
-    fetch("http://localhost:3000/join-group", {
+    if (!user?.email) {
+      alert("Please login first");
+      return;
+    }
+
+    fetch(`${BASE_URL}/join-group`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ groupId: _id, email: user.email })
     })
       .then(res => res.json())
-      .then(() => {
+      .then(data => {
+        if (data.message === "Already joined") {
+          alert("You already joined this group!");
+          return;
+        }
+
         alert("Successfully Joined Group");
+        setJoin(true);
+        navigate('/mygroup');
       });
   };
 
+  // ✅ LEAVE GROUP (FIXED URL)
+  const handleDeleteGroup = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will leave this group.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, leave it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
 
+        fetch(`${BASE_URL}/leave-group/${_id}?email=${user.email}`, {
+          method: "DELETE"
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.deletedCount > 0) {
+              Swal.fire("Done!", "You left the group.", "success");
+              setJoin(false);
+            }
+          });
+      }
+    });
+  };
 
+  // ✅ CHECK IF JOINED
+  useEffect(() => {
+    if (!user?.email) return;
+
+    fetch(`${BASE_URL}/check-join?groupId=${_id}&email=${user.email}`)
+      .then(res => res.json())
+      .then(data => {
+        setJoin(data.joined);
+      });
+  }, [user, _id]);
 
 
   return (
     <div className="shadow-md bg-[#F7F6FF] pb-12 max-w-10/12 mx-auto">
-
 
       <div className="flex justify-between items-center p-8">
         <h1 className="text-4xl font-bold text-purple-700">Group Details</h1>
@@ -50,44 +100,34 @@ const GroupDetails = () => {
               Group Information
             </h1>
 
+            {/* Info Section */}
             <div className="space-y-3">
-              <div>
-                <p className="text-sm text-gray-500 font-medium">Group Name</p>
-                <p className="text-lg font-semibold">{name}</p>
-              </div>
-
-              <div>
-                <p className="text-sm text-gray-500 font-medium">Category</p>
-                <p className="text-lg font-semibold">{category}</p>
-              </div>
-
-              <div>
-                <p className="text-sm text-gray-500 font-medium">Meeting Frequency</p>
-                <p className="text-lg font-semibold">{meeting}</p>
-              </div>
-
-              <div>
-                <p className="text-sm text-gray-500 font-medium">Max Members</p>
-                <p className="text-lg font-semibold">{quantity}</p>
-              </div>
-
-              <div>
-                <p className="text-sm text-gray-500 font-medium">Start Date</p>
-                <p className="text-lg font-semibold">{startDate}</p>
-              </div>
+              <p><strong>Name:</strong> {name}</p>
+              <p><strong>Category:</strong> {category}</p>
+              <p><strong>Meeting:</strong> {meeting}</p>
+              <p><strong>Members:</strong> {quantity}</p>
+              <p><strong>Start Date:</strong> {startDate}</p>
             </div>
 
-            <button onClick={handleJoinGroup} className="btn btn-success text-white w-full">Join Group</button>
+            {/* Join / Leave Button */}
+            {!join ? (
+              <button onClick={handleJoinGroup} className="btn btn-success text-white w-full">
+                Join Group
+              </button>
+            ) : (
+              <button onClick={handleDeleteGroup} className="btn btn-secondary text-white w-full">
+                Leave Group
+              </button>
+            )}
+
           </div>
         </div>
 
+        {/* Right Side */}
         <div className="col-span-8">
-          <img src={photo} alt="" className="max-h-96 w-full mb-10 rounded-xl shadow" />
+          <img src={photo} className="max-h-96 w-full mb-10 rounded-xl shadow" />
 
-          <h1 className="mb-6 font-bold text-2xl text-purple-700">
-            Description
-          </h1>
-
+          <h1 className="mb-6 font-bold text-2xl text-purple-700">Description</h1>
           <p className="text-gray-700 leading-relaxed">{description}</p>
         </div>
 

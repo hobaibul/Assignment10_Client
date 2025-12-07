@@ -4,21 +4,21 @@ import GroupCard from '../../Components/GroupCard/GroupCard';
 
 const AllGroups = () => {
     // Try to get loader data (will work ONLY in route)
-  const loaderData = useLoaderData?.() || [];
+    const loaderData = useLoaderData?.() || [];
 
-  // If loaderData = undefined → fallback to []
-  const [hobbys, setHobbys] = useState(loaderData);
+    // If loaderData = undefined → fallback to []
+    const [hobbys, setHobbys] = useState(loaderData);
 
-  // If loader did NOT run (Home page) → fetch manually
-  useEffect(() => {
-    if (loaderData.length === 0) {
-      fetch("http://localhost:3000/hobby")
-        .then((res) => res.json())
-        .then((data) => setHobbys(data));
-    }
-  }, []);
+    // If loader did NOT run (Home page) → fetch manually
+    useEffect(() => {
+        if (loaderData.length === 0) {
+            fetch("https://hobbyhub-server-tawny.vercel.app/hobby")
+                .then((res) => res.json())
+                .then((data) => setHobbys(data));
+        }
+    }, []);
 
-  
+
     return (
         <div className="p-6 text-center">
             <h1 className="text-3xl font-bold text-black-500 mb-12">

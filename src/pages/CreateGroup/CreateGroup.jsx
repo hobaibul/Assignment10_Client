@@ -11,7 +11,7 @@ const CreateGroup = () => {
         console.log(newHobby);
 
         // post data
-        fetch("http://localhost:3000/hobby", {
+        fetch("https://hobbyhub-server-tawny.vercel.app/hobby", {
             method: "POST",
             headers: {
                 "content-type": "application/json"

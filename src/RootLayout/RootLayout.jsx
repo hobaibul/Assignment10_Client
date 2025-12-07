@@ -3,6 +3,7 @@ import Header from '../Components/Header/Header';
 import { Outlet } from 'react-router';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase/firebase.config';
+import Footer from '../Components/Footer/Footer';
 
 
 export const MainContext = createContext();
@@ -69,6 +70,7 @@ const RootLayout = () => {
             <MainContext.Provider value={contextValue}>
                 <Header></Header>
                 <Outlet></Outlet>
+                <Footer></Footer>
             </MainContext.Provider>
 
         </div>

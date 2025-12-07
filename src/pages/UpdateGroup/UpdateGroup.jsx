@@ -6,25 +6,25 @@ const UpdateGroup = () => {
 
     const data = useLoaderData();
 
-    const {_id, name, category, description, meeting, quantity, startDate, photo} = data;
+    const { _id, name, category, description, meeting, quantity, startDate, photo } = data;
 
-    const handleUpdateHobby = (e) =>{
+    const handleUpdateHobby = (e) => {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
         const updatedHobby = Object.fromEntries(formData.entries());
 
 
-        fetch(`http://localhost:3000/hobby/${_id}`,{
+        fetch(`https://hobbyhub-server-tawny.vercel.app/hobby/${_id}`, {
             method: 'PUT',
             headers: {
-               'Content-Type': 'application/json' 
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(updatedHobby)
         })
-        .then(res=> res.json())
-        .then(data => {
-             if (data.modifiedCount) {
+            .then(res => res.json())
+            .then(data => {
+                if (data.modifiedCount) {
                     Swal.fire({
                         position: "top-mid",
                         icon: "success",
@@ -33,10 +33,10 @@ const UpdateGroup = () => {
                         timer: 1500
                     });
                 }
-        })
+            })
 
 
-        
+
     }
 
     return (

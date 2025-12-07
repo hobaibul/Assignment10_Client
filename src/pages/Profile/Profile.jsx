@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { MainContext } from '../../RootLayout/RootLayout';
+import MyGroups from '../MyGroups/MyGroups';
 
 const Profile = () => {
 
@@ -63,37 +64,14 @@ const Profile = () => {
             <h2 className="text-3xl font-bold text-gray-800 mb-6">My Groups</h2>
 
             {/* Groups Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <>
 
                 {/* Group Card 1 */}
-                <div className="bg-white rounded-2xl shadow-lg overflow-hidden transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
-                    <div className="relative">
-                        <img
-                            src="https://picsum.photos/400/250"
-                            className="w-full h-44 object-cover"
-                        />
-
-                        {/* Category Tag */}
-                        <span className="absolute top-3 left-3 bg-white/80 backdrop-blur-md text-sm px-3 py-1 rounded-xl shadow">
-                            Drawing
-                        </span>
-                    </div>
-
-                    <div className="p-5">
-                        <h3 className="text-xl font-bold text-gray-800 mb-2">Art Lovers Group</h3>
-                        <p className="text-gray-600 text-sm mb-4">
-                            Explore creative drawing, painting and share ideas with members…
-                        </p>
-
-                        <button className="btn w-full bg-purple-600 text-white border-none hover:bg-purple-700">
-                            See Details
-                        </button>
-                    </div>
-                </div>
+                <MyGroups></MyGroups>
 
 
 
-            </div>
+            </>
         </div>
     );
 };

@@ -9,7 +9,7 @@ const MyGroups = () => {
     useEffect(() => {
         if (!user?.email) return;
 
-        fetch(`http://localhost:3000/my-groups?email=${user.email}`)
+        fetch(`https://hobbyhub-server-tawny.vercel.app/my-groups?email=${user.email}`)
             .then(res => res.json())
             .then(data => setGroups(data));
     }, [user]);
